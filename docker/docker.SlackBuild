@@ -5,7 +5,7 @@
 # Written by Vincent Batts <vbatts@hashbangbash.com>
 
 PRGNAM=docker
-VERSION=${VERSION:-1.12.5}
+VERSION=${VERSION:-1.8.2}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
 
@@ -55,16 +55,17 @@ find . ! -type l \
  -o -perm 440 -o -perm 400 \) -exec chmod 644 {} \;
 
 unset GOPATH
-### Those patches are no more needed ( when the script is ran against v1.12.5 )
+
 # back out this commit, which causes btrfs headers to not be found on slackware
 # since btrfs-progs removes the <btrfs/ioctl.h> header.
 # https://github.com/docker/docker/commit/6922f1be08111d889b0585b763b08f92d7a55e05
-# patch -p1 -R < $CWD/docker-btrfs.patch
+patch -p1 -R < $CWD/docker-btrfs.patch
 
-# a couple of patches thait missed the 1.8.2 release window, but are essential
-#for patch in ${CWD}/patches/*.patch
-#do
-#	patch -p1 < ${patch}#done
+# a couple of patches that missed the 1.8.2 release window, but are essential
+for patch in ${CWD}/patches/*.patch
+do
+	patch -p1 < ${patch}
+done
 
 mkdir -p ${PKG}/usr/share/gocode/src/github.com/docker/docker
 cp -a .  ${PKG}/usr/share/gocode/src/github.com/docker/docker/
@@ -75,12 +76,8 @@ DOCKER_GITCOMMIT="$GITHASH" \
 
 # do not strip these binaries. they have a SHA1 baked into them.
 mkdir -p ${PKG}/usr/libexec/docker ${PKG}/usr/bin
-#mv bundles/${VERSION}/dynbinary/dockerinit-${VERSION} ${PKG}/usr/libexec/docker/dockerinit
-mv bundles/${VERSION}/dynbinary-client/docker-${VERSION} ${PKG}/usr/bin/docker
-
-# adding that binary for deamon
-mv bundles/${VERSION}/dynbinary-daemon/dockerd-${VERSION} ${PKG}/usr/bin/dockerd
-mv bundles/${VERSION}/dynbinary-daemon/docker-proxy-${VERSION} ${PKG}/usr/bin/docker-proxy
+mv bundles/${VERSION}/dynbinary/dockerinit-${VERSION} ${PKG}/usr/libexec/docker/dockerinit
+mv bundles/${VERSION}/dynbinary/docker-${VERSION} ${PKG}/usr/bin/docker
 
 install -D --mode 0644 $CWD/config/docker.default $PKG/etc/default/docker.new
 install -D --mode 0644 $CWD/config/docker.logrotate $PKG/etc/logrotate.d/docker.new
