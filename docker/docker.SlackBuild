@@ -5,7 +5,7 @@
 # Written by Vincent Batts <vbatts@hashbangbash.com>
 
 PRGNAM=docker
-VERSION=${VERSION:-1.12.5}
+VERSION=${VERSION:-1.13.0}
 BUILD=${BUILD:-1}
 TAG=${TAG:-_SBo}
 
@@ -75,12 +75,15 @@ DOCKER_GITCOMMIT="$GITHASH" \
 
 # do not strip these binaries. they have a SHA1 baked into them.
 mkdir -p ${PKG}/usr/libexec/docker ${PKG}/usr/bin
-#mv bundles/${VERSION}/dynbinary/dockerinit-${VERSION} ${PKG}/usr/libexec/docker/dockerinit
-mv bundles/${VERSION}/dynbinary-client/docker-${VERSION} ${PKG}/usr/bin/docker
+#mv bundles/${VERSION}/dynbinary/dockerinit-${VERSION} ${PKG}/usr/libexec/docker/dockerinit   # used for docker 1.8.2
+#mv bundles/${VERSION}/dynbinary-client/docker-${VERSION} ${PKG}/usr/bin/docker               # used for docker 1.12.5
+mv bundles/${VERSION}/dynbinary-client/docker ${PKG}/usr/bin/docker                           # used for docker 1.13.0                             
 
 # adding that binary for deamon
-mv bundles/${VERSION}/dynbinary-daemon/dockerd-${VERSION} ${PKG}/usr/bin/dockerd
-mv bundles/${VERSION}/dynbinary-daemon/docker-proxy-${VERSION} ${PKG}/usr/bin/docker-proxy
+#mv bundles/${VERSION}/dynbinary-daemon/dockerd-${VERSION} ${PKG}/usr/bin/dockerd            # used for docker 1.12.5
+#mv bundles/${VERSION}/dynbinary-daemon/docker-proxy-${VERSION} ${PKG}/usr/bin/docker-proxy  # used for docker 1.12.5
+mv bundles/${VERSION}/dynbinary-daemon/dockerd ${PKG}/usr/bin/dockerd                       # used for docker 1.13.0
+
 
 install -D --mode 0644 $CWD/config/docker.default $PKG/etc/default/docker.new
 install -D --mode 0644 $CWD/config/docker.logrotate $PKG/etc/logrotate.d/docker.new
