@@ -1,1 +1,6 @@
+# do not track temp file
 *~
+.un$
+
+# Do not track archive
+*.tar.*
