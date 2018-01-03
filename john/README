@@ -1,0 +1,12 @@
+John the Ripper is a fast password cracker.  Its primary purpose is to detect 
+weak passwords. The jumbo flavor is a community-enhanced version of JtR.
+It adds more hashes, features and optimization. It includes 'lot of
+functionality that is not "mature" enough or is otherwise inappropriate for
+the official JtR, which in turn also means that bugs in this code are to be
+expected' 
+
+For more information, consult the project's homepage and/or the documentation 
+installed in /usr/doc/john-1.8.0-jumbo-1
+
+Installation of john-jumbo is mutually exclusive with the official JtR program
+also availlable from Slackbuild.org
