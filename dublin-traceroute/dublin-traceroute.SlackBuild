@@ -1,10 +1,10 @@
 #!/bin/sh
 
-# Slackware build script for PMACCT
+# Slackware build script for DUBLIN-TRACEROUTE
 
 # Written by Nicolas Piatto <nico@lodpp.net>
 
-# 02/Apr/2018 * First script version
+# 07/Apr/2018 * First script version
 
 PRGNAM=dublin-traceroute
 VERSION=${VERSION:-0.4.2}
@@ -62,9 +62,11 @@ find -L . \
  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
  -exec chmod 644 {} \;
 
-cmake .
+# By default le lib dir is always set to /usr/local/lib (no matter the 32/64bit build)
+# Trying to make it more dynamic...but not tested on 32bit.
+cmake -DCMAKE_INSTALL_LIBDIR="/usr/local/lib$LIBDIRSUFFIX/" .
 make
-CMAKE_INSTALL_PREFIX="$PKG/usr/local" make install || exit
+make install DESTDIR=$PKG
 
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
