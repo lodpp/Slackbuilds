@@ -68,7 +68,7 @@ cd src/
 patch  -p1 < "$CWD/libdir2.patch"
 cd ..
 
-cmake -DCMAKE_INSTALL_LIBDIR="/usr/local/lib$LIBDIRSUFFIX/" .
+cmake -DCMAKE_INSTALL_LIBDIR="/usr/lib$LIBDIRSUFFIX/" .
 make
 make install DESTDIR=$PKG
 
