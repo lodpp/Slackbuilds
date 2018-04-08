@@ -64,7 +64,7 @@ find -L . \
 
 # By default le lib dir is always set to /usr/local/lib (no matter the 32/64bit build)
 # Trying to make it more dynamic...but not tested on 32bit.
-cmake -DCMAKE_INSTALL_LIBDIR="/usr/local/lib$LIBDIRSUFFIX/" .
+cmake -DCMAKE_INSTALL_LIBDIR="/usr/lib$LIBDIRSUFFIX/" .
 make
 make install DESTDIR=$PKG
 
