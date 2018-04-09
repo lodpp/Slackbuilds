@@ -1,18 +1,28 @@
 #!/bin/sh
 
-# Slackware build script for John the Ripper
+# Slackware build script for JOHN THE RIPPER JUMBO
 
-# Written by Murat D. Kadirov <banderols@gmail.com>
+# Copyright 2018 Nicolas Piatto <nico@lodpp.net> FRANCE
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-# 20/Nov/2011 * Updated for version 1.7.8 and jambo-patch 8
-#               Thanks a lot Kent Fritz for patch with many improvements
-# 19/Dec/2011 * Updated for version 1.7.9 and jambo-patch 5
-# 10/Nov/2013 * Updated for version 1.8.0
-# 24/Feb/2015 * Added support for AVX instructions --  thanks to Matthijs
-#               Schuurman for the patch
-#               Also removed "MERGEWORDS" option, as it's harmful for cracking
-#               slow hashes.
-# 01/Jan/2018 * Updated for version 1.8.0-jumbo-1
+# 01/Jan/2018 * First version
 
 PRGNAM=john
 VERSION=${VERSION:-1.8.0-jumbo-1}
