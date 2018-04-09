@@ -1,4 +1,4 @@
-PRGNAM="sflowtools"
+PRGNAM="sflowtool"
 VERSION="3.41"
 HOMEPAGE="https://sflow.net/"
 DOWNLOAD="https://github.com/sflow/sflowtool/releases/download/v3.41/sflowtool-3.41.tar.gz"
