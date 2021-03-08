@@ -73,23 +73,17 @@ find -L . \
 
 CFLAGS="$SLKCFLAGS" \
 CXXFLAGS="$SLKCFLAGS" \
-
-
 make
 make install ENABLE_MAN=yes DESTDIR=$PKG
 
 find $PKG -print0 | xargs -0 file | grep -e "executable" -e "shared object" | grep ELF \
   | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null || true
 
-
-# Copy program documentation into the package
-# The included documentation varies from one application to another, so be sure
-# to adjust your script as needed
-# Also, include the SlackBuild script in the documentation directory
 mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
-#cp -a \
-#  <documentation> \
-#  $PKG/usr/doc/$PRGNAM-$VERSION
+cp -a \
+  doc AUTHORS CONTRIBUTING.md COPYING NEWS README \
+  RELEASE_NOTES-0.4.1.md RELEASE_NOTES-0.4.md THANKS.md \
+  $PKG/usr/doc/$PRGNAM-$VERSION
 cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
 
 mkdir -p $PKG/install
