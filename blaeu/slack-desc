@@ -1,0 +1,19 @@
+# HOW TO EDIT THIS FILE:
+# The "handy ruler" below makes it easier to edit a package description.
+# Line up the first '|' above the ':' following the base package name, and
+# the '|' on the right side marks the last column you can put a character in.
+# You must make exactly 11 lines for the formatting to be correct.  It's also
+# customary to leave one space after the ':' except on otherwise blank lines.
+
+         |-----handy-ruler------------------------------------------------------|
+blaeu: blaeu
+blaeu:
+blaeu: This is a set of Python programs to start distributed Internet
+blaeu: measurements on the network of RIPE Atlas probes, and to analyze
+blaeu: their results.
+blaeu:
+blaeu: - blaeu-reach target-IP-address (test ICMP reachability of the target,
+blaeu:   like ping)
+blaeu: - blaeu-traceroute target-IP-address (like traceroute)
+blaeu: - blaeu-resolve name (use the DNS to resolve the name)
+blaeu: - blaeu-cert name (display the PKIX certificate)

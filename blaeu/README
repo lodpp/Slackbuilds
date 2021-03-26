@@ -1,0 +1,29 @@
+blaeu
+
+Blaeu is a set of Python programs to start distributed Internet measurements on
+the network of RIPE Atlas probes, and to analyze their results.
+
+- blaeu-reach target-IP-address (test reachability of the target, like ping)
+- blaeu-traceroute target-IP-address (like traceroute)
+- blaeu-resolve name (use the DNS to resolve the name)
+- blaeu-cert name (display the PKIX certificate)
+
+Blaeu requires Python 3.
+
+Usage requires a RIPE Atlas API key (which itself requires a RIPE account), and
+RIPE Atlas credits. If you don't have a RIPE account, register first. Once you
+have an account, create a key, grant it the right to start new measurements, and
+put the key in ~/.atlas/auth. If you don't have Atlas credits, host a probe,or
+become a LIR or ask a friend.
+
+A word on RIPE Atlas: ( from https://atlas.ripe.net/about/ )
+RIPE Atlas is a global network of probes that measure Internet connectivity and
+reachability, providing an unprecedented understanding of the state of the
+Internet in real time.
+
+There are thousands of active probes in the RIPE Atlas network, and it is
+continually growing. The RIPE NCC collects data from this network and provides
+Internet maps, data tools and visualisations based on the aggregated results.
+RIPE Atlas users who host a probe can also use the entire RIPE Atlas network to
+conduct customised measurements that provide valuable data about their own
+network.
