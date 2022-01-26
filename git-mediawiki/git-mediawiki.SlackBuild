@@ -1,0 +1,146 @@
+#!/bin/bash
+
+# Slackware build script for git-mediawiki git extension
+
+# Copyright 2022 Nicolas Piatto <nico@lodpp.net> FRANCE
+# All rights reserved.
+#
+# Redistribution and use of this script, with or without modification, is
+# permitted provided that the following conditions are met:
+#
+# 1. Redistributions of this script must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
+#  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+#  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO
+#  EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+#  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+#  PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+#  OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+#  WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+#  OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+#  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+# 26/Jan/2022 * First version
+
+cd $(dirname $0) ; CWD=$(pwd)
+
+PRGNAM=git-mediawiki
+VERSION=${VERSION:-2.34.1}
+BUILD=${BUILD:-1}
+
+# Automatically determine the architecture we're building on:
+if [ -z "$ARCH" ]; then
+  case "$( uname -m )" in
+    i?86) export ARCH=i586 ;;
+    arm*) export ARCH=arm ;;
+    # Unless $ARCH is already set, use uname -m for all other archs:
+       *) export ARCH=$( uname -m ) ;;
+  esac
+fi
+
+# If the variable PRINT_PACKAGE_NAME is set, then this script will report what
+# the name of the created package would be, and then exit. This information
+# could be useful to other scripts.
+if [ ! -z "${PRINT_PACKAGE_NAME}" ]; then
+  echo "$PRGNAM-$VERSION-$ARCH-$BUILD.txz"
+  exit 0
+fi
+
+# Find a suitable location to install the git::mediawiki perl module
+eval $(perl '-V:installvendorlib')
+if [ -z $installvendorlib ]; then
+  PERLDIR="/usr/share/perl5/vendor_perl"
+else
+  PERLDIR=$installvendorlib
+fi
+
+if [ "$ARCH" = "i586" ]; then
+  SLKCFLAGS="-O2 -march=i586 -mtune=i686"
+elif [ "$ARCH" = "s390" ]; then
+  SLKCFLAGS="-O2"
+elif [ "$ARCH" = "x86_64" ]; then
+  SLKCFLAGS="-O2 -fPIC"
+else
+  SLKCFLAGS="-O2"
+fi
+
+TMP=${TMP:-/tmp}
+PKG=$TMP/package-git-mediawiki
+
+rm -rf $PKG
+mkdir -p $TMP $PKG
+
+cd $TMP
+rm -rf git-mediawiki-$VERSION
+tar xvf $CWD/git-$VERSION.tar.?z* || exit 1
+cd git-$VERSION || exit 1
+
+chown -R root:root .
+find . \
+  \( -perm 777 -o -perm 775 -o -perm 711 -o -perm 555 -o -perm 511 \) \
+  -exec chmod 755 {} \+ -o \
+  \( -perm 666 -o -perm 664 -o -perm 600 -o -perm 444 -o -perm 440 -o -perm 400 \) \
+  -exec chmod 644 {} \+
+
+GITCORE=$(git --exec-path)
+mkdir -p $PKG/$GITCORE
+
+./configure --exec-prefix=/usr
+cd contrib/mw-to-git
+make exec_prefix=/usr || exit 1
+make install INSTLIBDIR=$PERLDIR DESTDIR=$PKG || exit 1
+
+
+# Compress and if needed symlink the man pages:
+if [ -d $PKG/usr/man ]; then
+  ( cd $PKG/usr/man
+    for manpagedir in $(find . -type d -name "man*") ; do
+      ( cd $manpagedir
+        for eachpage in $( find . -type l -maxdepth 1) ; do
+          ln -s $( readlink $eachpage ).gz $eachpage.gz
+          rm $eachpage
+        done
+        gzip -9 *.*
+      )
+    done
+  )
+fi
+
+find $PKG | xargs file | grep -e "executable" -e "shared object" | grep ELF \
+  | cut -f 1 -d : | xargs strip --strip-unneeded 2> /dev/null
+
+
+# This removes our DESTDIR from the packlist filenames, to keep perl's 
+# internal inventories consistent and correct.
+find $PKG -name .packlist | while read plist ; do
+  sed -e "s%/share/man%/man%g" \
+      -e "s%$PKG%%g" \
+      -e "s%\.1$%\.1\.gz%g" \
+      -e "s%\.2$%\.2\.gz%g" \
+      -e "s%\.3$%\.3\.gz%g" \
+      -e "s%\.3pm$%\.3pm\.gz%g" \
+      -e "s%\.4$%\.4\.gz%g" \
+      -e "s%\.5$%\.5\.gz%g" \
+      -e "s%\.6$%\.6\.gz%g" \
+      -e "s%\.7$%\.7\.gz%g" \
+      -e "s%\.8$%\.8\.gz%g" \
+      ${plist} > ${plist}.new
+      mv -f ${plist}.new ${plist}
+done
+
+# This is junk:
+eval $(perl '-V:privlib')
+( cd $PKG$(dirname $privlib) && rm -rf 5.* )
+
+mkdir -p $PKG/usr/doc/$PRGNAM-$VERSION
+cat $CWD/$PRGNAM.SlackBuild > $PKG/usr/doc/$PRGNAM-$VERSION/$PRGNAM.SlackBuild
+
+mkdir -p $PKG/install
+cat $CWD/slack-desc > $PKG/install/slack-desc
+
+
+cd $PKG
+/sbin/makepkg -l y -c n $TMP/git-mediawiki-$VERSION-$ARCH-$BUILD.txz
+
