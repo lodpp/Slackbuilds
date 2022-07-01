@@ -1,0 +1,10 @@
+--- openssh.SlackBuild	2022-05-25 14:00:24.426662841 +0200
++++ openssh.SlackBuild.patched	2022-05-25 14:00:20.085630036 +0200
+@@ -113,6 +113,7 @@
+   --with-default-path=/usr/local/sbin:/usr/sbin:/sbin:/usr/local/bin:/usr/bin:/bin \
+   --with-privsep-path=/var/empty \
+   --with-privsep-user=sshd \
++  --with-security-key-builtin \
+   --build=$ARCH-slackware-linux || exit 1
+ 
+ make $NUMJOBS || make || exit 1
