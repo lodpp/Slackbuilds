@@ -52,6 +52,8 @@ OUTPUT=${OUTPUT:-/tmp}
 
 set -eu
 
+# Cisco does not provide the package version in the site or download filename
+# doing some siouxerie here.
 RPM_VERSION=$(rpm -qp $CWD/Webex.rpm | grep webex | awk -F'-' '{print $2}')
 
 if [ -z $RPM_VERSION ]; then

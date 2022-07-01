@@ -6,10 +6,10 @@
 # customary to leave one space after the ':' except on otherwise blank lines.
 
            |-----handy-ruler------------------------------------------------------|
-cisco-webex: cisco-webex (integrated video conferencing and messaging client)
+cisco-webex: cisco-webex - integrated video conferencing and messaging client
 cisco-webex:
 cisco-webex: Cisco-webex is the desktop video conferencing and messaging client
-cisco-webex: to connect to Cisco WEBEX services.
+cisco-webex: to use with Cisco WEBEX services.
 cisco-webex:
 cisco-webex:
 cisco-webex:
